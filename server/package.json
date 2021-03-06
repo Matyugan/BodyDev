@@ -6,11 +6,18 @@
   "scripts": {
     "dev": "nodemon index.js"
   },
+  "_moduleAliases": {
+    "@root": "/",
+    "@utils": "utils",
+    "@core": "core",
+    "@modules": "modules"
+  },
   "author": "Maxim Atyuganov",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "module-alias": "^2.2.2",
     "pg": "^8.5.1",
     "sequelize": "^6.5.0"
   },
