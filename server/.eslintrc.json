@@ -1,6 +1,6 @@
 {
   "extends": ["airbnb-base/legacy", "prettier", "plugin:node/recommended"],
-  "plugins": ["prettier"],
+  "plugins": ["prettier", "@babel/plugin-proposal-class-properties"],
   "rules": {
     "prettier/prettier": [
       "error",
@@ -13,5 +13,9 @@
     "func-names": "off",
     "object-shorthand": "off",
     "strict": "off"
+  },
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "requireConfigFile": false
   }
 }
