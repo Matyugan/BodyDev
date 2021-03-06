@@ -1,9 +1,10 @@
 const { Sequelize } = require("sequelize");
+const Configuration = require("../../utils/Configuration");
 
 const sequelize = new Sequelize(
-  `${process.env.DB_NAME}`,
-  `${process.env.DB_USER}`,
-  `${process.env.DB_PASSWORD}`,
+  Configuration.database.DB_NAME,
+  Configuration.database.DB_USER,
+  Configuration.database.DB_PASSWORD,
   {
     host: "localhost",
     dialect: "postgres",
