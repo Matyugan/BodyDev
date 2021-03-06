@@ -1,7 +1,8 @@
+require("module-alias/register");
+require("dotenv").config();
+
 const express = require("express");
 const app = express();
-
-require("dotenv").config();
 const db = require("./core/database");
 
 app.listen(process.env.PORT, () => {
