@@ -5,13 +5,11 @@ const app = express();
 const db = require("./core/database");
 
 try {
-  db.sync()
-    .then(() => {
-      app.listen(process.env.PORT, () => {
-        console.log("Server is running!");
-      });
-    })
-    .catch((error) => console.log(error));
+  db.sync().then(() => {
+    app.listen(process.env.PORT, () => {
+      console.log("Server is running!");
+    });
+  });
 } catch (error) {
   console.log(error);
 }
