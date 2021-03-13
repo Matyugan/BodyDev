@@ -1,6 +1,6 @@
 {
   "extends": ["airbnb-base/legacy", "prettier", "plugin:node/recommended"],
-  "plugins": ["prettier", "@babel/plugin-proposal-class-properties"],
+  "plugins": ["prettier", "babel"],
   "rules": {
     "prettier/prettier": [
       "error",
