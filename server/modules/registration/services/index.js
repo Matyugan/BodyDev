@@ -1,3 +1,4 @@
+const { ErrorHandler } = require("../../../helpers/CommonError");
 const User = require("../../users/models");
 
 exports.createUser = async function (request, response, next) {
@@ -15,13 +16,11 @@ exports.createUser = async function (request, response, next) {
       const isUser = await User.findOne({ where: { email } });
 
       if (isUser) {
-        throw new Error({
-          statusCode: 403,
-          message: "Forbidden",
-        });
+        throw new ErrorHandler(403, "Пользователь уже существует!");
       }
 
-      if (password !== confirmPassword) throw new Error("Пароли не совпадают");
+      if (password !== confirmPassword)
+        throw new ErrorHandler(403, "Пароли не совпадают!");
 
       const user = await User.create({
         firstName,
@@ -31,7 +30,7 @@ exports.createUser = async function (request, response, next) {
         password,
       });
 
-      response.status(200).json({ message: "Пользователь создан", user });
+      response.status(200).json({ message: "Пользователь создан!", user });
     }
   } catch (error) {
     next(error);
