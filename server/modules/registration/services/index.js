@@ -1,5 +1,6 @@
 const { ErrorHandler } = require("../../../helpers/CommonError");
 const User = require("../../users/models");
+const nodemailer = require("../../../config/NodemailerConfiguration");
 
 exports.createUser = async function (request, response, next) {
   try {
@@ -29,6 +30,19 @@ exports.createUser = async function (request, response, next) {
         email,
         password,
       });
+
+      nodemailer.sendMail(
+        {
+          from: process.env.NODEMAILER_FROM,
+          to: email,
+          subject: "Регистрация нового пользователя",
+          text: "Поздравляем, Вы успешно зарегистрировались",
+          message: "<h3>Пройдите верификацию по ссылке ниже.</h3>",
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
 
       response.status(200).json({ message: "Пользователь создан!", user });
     }
