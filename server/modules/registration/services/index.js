@@ -1,18 +1,19 @@
 const { ErrorHandler } = require("../../../helpers/CommonError");
 const User = require("../../users/models");
 const nodemailer = require("../../../config/NodemailerConfiguration");
+const argon2 = require("argon2");
 
 exports.createUser = async function (request, response, next) {
-  try {
-    const {
-      firstName,
-      lastName,
-      age,
-      email,
-      password,
-      confirmPassword,
-    } = request.body;
+  const {
+    firstName,
+    lastName,
+    age,
+    email,
+    password,
+    confirmPassword,
+  } = request.body;
 
+  try {
     if (firstName && lastName && age && email && password && confirmPassword) {
       const isUser = await User.findOne({ where: { email } });
 
@@ -28,7 +29,7 @@ exports.createUser = async function (request, response, next) {
         lastName,
         age,
         email,
-        password,
+        password: await argon2.hash(password),
       });
 
       nodemailer.sendMail(

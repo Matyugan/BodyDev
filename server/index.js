@@ -8,7 +8,7 @@ const { errorHandler } = require("./middleware/errorHandler");
 app.use(express.json());
 
 const registration = require("./modules/registration/routes");
-app.use("/registration", registration);
+app.use("/api/registration", registration);
 app.use(errorHandler);
 
 try {

@@ -9,6 +9,7 @@
   "author": "Maxim Atyuganov",
   "license": "ISC",
   "dependencies": {
+    "argon2": "^0.27.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "nodemailer": "^6.5.0",
