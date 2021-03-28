@@ -12,7 +12,8 @@
     "no-console": "off",
     "func-names": "off",
     "object-shorthand": "off",
-    "strict": "off"
+    "strict": "off",
+    "allowForLoopAfterthoughts": "off"
   },
   "parser": "@babel/eslint-parser",
   "parserOptions": {

@@ -33,6 +33,11 @@ const User = sequelize.define("User", {
     allowNull: false,
     defaultValue: false,
   },
+  verificationToken: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    defaultValue: false,
+  },
 });
 
 module.exports = User;

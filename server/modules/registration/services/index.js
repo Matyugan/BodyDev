@@ -24,12 +24,22 @@ exports.createUser = async function (request, response, next) {
       if (password !== confirmPassword)
         throw new ErrorHandler(403, "Пароли не совпадают!");
 
+      // Later change on jwt token
+      const secretKey = process.env.SECRET_KEY;
+      let verificationToken = "";
+
+      for (let i = 0; i < 10; i++) {
+        verificationToken +=
+          secretKey[Math.floor(Math.random() * verificationToken.length)];
+      }
+
       const user = await User.create({
         firstName,
         lastName,
         age,
         email,
         password: await argon2.hash(password),
+        verificationToken,
       });
 
       nodemailer.sendMail(
@@ -38,7 +48,13 @@ exports.createUser = async function (request, response, next) {
           to: email,
           subject: "Регистрация нового пользователя",
           text: "Поздравляем, Вы успешно зарегистрировались",
-          message: "<h3>Пройдите верификацию по ссылке ниже.</h3>",
+          html: `
+            <h1>Пожалуйста, подтвердите свой email</h1>
+            <h2>Доброго времени суток, ${firstName} ${lastName} </h2>
+            <p>Спасибо за регистрацию в нашем сервисе BodyDev. Пожалуйста, подвердите свой email по ссылке ниже</p>
+            <a href=http://localhost:3000/verification/${verificationToken}>Подтвердить email</a>
+            </div>
+          `,
         },
         (err) => {
           console.log(err);
