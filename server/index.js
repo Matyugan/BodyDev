@@ -4,11 +4,14 @@ const express = require("express");
 const app = express();
 const db = require("./core/database");
 const { errorHandler } = require("./middleware/errorHandler");
+// Routes
+const registration = require("./modules/registration/routes");
+const verification = require("./modules/verification/routes");
 
 app.use(express.json());
 
-const registration = require("./modules/registration/routes");
-app.use("/registration", registration);
+app.use("/api/registration", registration);
+app.use("/api/verification", verification);
 app.use(errorHandler);
 
 try {
