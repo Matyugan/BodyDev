@@ -1,25 +1,35 @@
 const User = require("../../users/models");
+const Verification = require("../model");
+
 const { ErrorHandler } = require("../../../helpers/CommonError");
 
 exports.verification = async function (request, response, next) {
   const { verificationToken } = request.params;
   try {
-    if (!verificationToken) {
-      throw new ErrorHandler(403, "Упс, токена не существует");
-    }
-
-    const user = await User.findOne({ where: { verificationToken } });
-
-    if (!user) {
-      throw new ErrorHandler(403, "Пользователь не найден");
-    }
-
-    await user.update({
-      verifyed: true,
-      verificationToken: null,
+    const userData = await Verification.findOne({
+      where: { verificationToken },
+      include: {
+        model: User,
+      },
     });
 
-    response.status(200).json({ message: "Email подтвержден " });
+    if (!userData)
+      throw new ErrorHandler(
+        500,
+        "Пользователя, с таким верификационным ключом не существует"
+      );
+
+    const { verified } = userData.User;
+
+    // TODO if the user has been verified, a redirect to the personal account
+    if (verified)
+      response.status(200).json({ message: "Пользователь уже верифицирован" });
+
+    await userData.User.update(
+      { verified: true },
+      { where: { id: userData.User.id } }
+    );
+    response.status(200).json(userData);
   } catch (error) {
     next(error);
   }

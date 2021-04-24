@@ -15,7 +15,7 @@ app.use("/api/verification", verification);
 app.use(errorHandler);
 
 try {
-  db.sync().then(() => {
+  db.sync({ force: true }).then(() => {
     app.listen(process.env.PORT, () => {
       console.log("Server is running!");
     });
