@@ -1,5 +1,6 @@
 const { ErrorHandler } = require("../../../helpers/CommonError");
 const User = require("../../users/models");
+const Verification = require("../../verification/model");
 const nodemailer = require("../../../config/NodemailerConfiguration");
 const argon2 = require("argon2");
 
@@ -39,7 +40,11 @@ exports.createUser = async function (request, response, next) {
         age,
         email,
         password: await argon2.hash(password),
+      });
+
+      await Verification.create({
         verificationToken,
+        userId: user.id,
       });
 
       nodemailer.sendMail(

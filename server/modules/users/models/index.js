@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../../../core/database");
+const Verification = require("../../verification/model");
 
 const User = sequelize.define("User", {
   id: {
@@ -28,16 +29,20 @@ const User = sequelize.define("User", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  verifyed: {
+  verified: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
     defaultValue: false,
   },
-  verificationToken: {
-    type: DataTypes.STRING,
-    allowNull: true,
-    defaultValue: false,
-  },
+});
+
+User.hasOne(Verification, {
+  onDelete: "cascade",
+  foreignKey: "userId",
+});
+
+Verification.belongsTo(User, {
+  foreignKey: "userId",
 });
 
 module.exports = User;
